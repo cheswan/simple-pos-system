@@ -4,7 +4,6 @@ import LoginScreen from './screens/auth_screens/LoginScreen';
 import SplashScreen from './screens/SplashScreen';
 import { useEffect } from 'react';
 import HomeNavigator from './screens/HomeNavigator';
-import AboutScreenDetails from './screens/AboutScreenDetails';
 import { setCurrentUser } from './app/slice/currentUserSlice';
 import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -95,16 +94,6 @@ export default function AppBase() {
       <Stack.Screen
         name="login-screen"
         component={LoginScreen}
-        options={{ headerShown: false }}
-      />
-      {/* <Stack.Screen
-        name="splash-screen"
-        component={SplashScreen}
-        options={{ headerShown: false }}
-      /> */}
-      <Stack.Screen
-        name="about-screen-detail"
-        component={AboutScreenDetails}
         options={{ headerShown: false }}
       />
     </Stack.Navigator >

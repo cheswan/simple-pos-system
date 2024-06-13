@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Pressable, View } from 'react-native';
 import { globalStyles } from '../styles/global';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HomeScreen from './HomeScreen';
-import AboutScreen from './AboutScreen';
 import ItemScreen from './ItemScreen';
 import UploadScreen from './UploadScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,16 +37,13 @@ export default function HomeNavigator() {
             } else if (route.name === 'item-screen') {
               iconName = "format-list-bulleted"
             } else if (route.name === 'billing-screen') {
-              iconName = "format-list-bulleted"
+              iconName = "receipt-long";
+              IconComponent = MaterialIcons; // Use MaterialIcons for billing-screen
             } else if (route.name === 'receipt-screen') {
-              iconName = "format-list-bulleted"
-            } else if (route.name === 'about-screen') {
-              iconName = "information"
-            } else if (route.name === 'upload-screen') {
-              iconName = "information"
+              iconName = "receipt"
             }
 
-            return <MaterialCommunityIcons name={iconName} size={size} color={color} />
+            return <IconComponent name={iconName} size={size} color={color} />
           },
           tabBarActiveTintColor: '#000',
           tabBarInactiveTintColor: '#000',
@@ -65,10 +62,6 @@ export default function HomeNavigator() {
               text = 'Billing'
             } else if (route.name === 'receipt-screen') {
               text = 'Receipts'
-            } else if (route.name === 'about-screen') {
-              text = 'About'
-            } else if (route.name === 'upload-screen') {
-              text = 'Upload'
             }
 
             return <Text style={[
@@ -97,16 +90,6 @@ export default function HomeNavigator() {
         <Tab.Screen
           name="receipt-screen"
           component={ReceiptScreen}
-          options={{ title: 'About', unmountOnBlur: true, }}
-        />
-        {/* <Tab.Screen
-          name="upload-screen"
-          component={UploadScreen}
-          options={{ title: 'About', unmountOnBlur: true, }}
-        /> */}
-        <Tab.Screen
-          name="about-screen"
-          component={AboutScreen}
           options={{ title: 'About', unmountOnBlur: true, }}
         />
       </Tab.Navigator>
