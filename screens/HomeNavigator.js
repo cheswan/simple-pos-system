@@ -32,6 +32,7 @@ export default function HomeNavigator() {
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
+            let IconComponent = MaterialCommunityIcons;
             if (route.name === 'home-screen') {
               iconName = "home"
             } else if (route.name === 'item-screen') {

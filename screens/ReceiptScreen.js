@@ -10,28 +10,35 @@ const ReceiptScreen = () => {
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const numberOfItemsPerPageList = [5, 10, 15];
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const numberOfItemsPerPageList = [15, 30, 45];
 
   useEffect(() => {
-    getReceipts();
+    const receiptsRef = database.ref('receipts');
+    
+    const handleReceipts = (snapshot) => {
+      const receiptsArray = [];
+      snapshot.forEach(childSnapshot => {
+        const receipt = childSnapshot.val();
+        receiptsArray.push(receipt);
+      });
+      setReceipts(receiptsArray);
+    };
+
+    // Attach the listener
+    receiptsRef.on('value', handleReceipts);
+
+    // Cleanup listener on unmount
+    return () => receiptsRef.off('value', handleReceipts);
   }, []);
 
-  useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
-
-  const getReceipts = () => {
-    database.ref('receipts').once('value')
-      .then(snapshot => {
-        const receiptsArray = [];
-        snapshot.forEach(childSnapshot => {
-          const receipt = childSnapshot.val();
-          receiptsArray.push(receipt);
-        });
-        setReceipts(receiptsArray);
-      });
-  };
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.itemRow} onPress={() => { setSelectedReceipt(item); setModalVisible(true); }}>
+      <Text style={styles.itemCell}>Receipt #{item.id}</Text>
+      <Text style={styles.itemCell}>Total: ${item.total.toFixed(2)}</Text>
+      <Text style={styles.itemCell}>Date: {new Date(item.timestamp).toLocaleString()}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -147,5 +154,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-
 export default ReceiptScreen;
